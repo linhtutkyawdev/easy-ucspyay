@@ -2,7 +2,7 @@
 
 import { useAppSelector } from "@/lib/hooks";
 
-import { Button } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import { createEvent, addContestantSecret, removeSecret } from "../server";
 
 import useSWR from "swr";
@@ -140,10 +140,17 @@ const Admin = () => {
   };
 
   return (
-    <main>
+    <main className="bg-blue-gray-50">
       <Navbar white />
-      <Button placeholder="createEvent">Create an event!</Button>
-      {secrets && <GenerateQR secret={secrets[0]?.key} />}
+      <div className="flex items-center flex-col justify-center gap-4 h-[100vh] ">
+        <Typography placeholder="" variant="h5">
+          Scan This QR
+        </Typography>
+        {secrets && <GenerateQR secret={secrets[0]?.key} />}
+        <Button placeholder="createEvent" className="w-40">
+          Create an event!
+        </Button>
+      </div>
     </main>
   );
 };

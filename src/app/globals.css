@@ -188,10 +188,10 @@ body {
 
 .container2 .box {
   position: relative;
-  width: 60vw;
-  height: 60vw;
+  width: 55vw;
+  height: 55vw;
   @apply lg:w-[15rem] lg:h-[15rem];
-  margin: 3rem 0rem;
+  margin: 5rem 0rem;
 }
 
 /* .container2 .box:hover .imgBox {
@@ -268,7 +268,7 @@ body {
   letter-spacing: 2px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 959px) {
   .container2 .box:hover .imgBox {
     transform: translate(-1.5rem, -1.5rem);
   }
@@ -279,5 +279,12 @@ body {
 
   .content {
     align-items: flex-end;
+    padding: 0px;
+  }
+  .container2 .box {
+    margin: 1rem 0rem;
+  }
+  .content h2 {
+    padding: 0px;
   }
 }
