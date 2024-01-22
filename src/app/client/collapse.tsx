@@ -36,6 +36,7 @@ function NavItem({ children, href }: NavItemProps) {
 
 const Collapse = ({ open }: { open: boolean }) => {
   const events = useAppSelector((state) => state.event.events);
+  const user = useAppSelector((state) => state.user.user);
   const votesLeft = useAppSelector((state) => state.user.votesLeft);
 
   const dispatch = useAppDispatch();
@@ -48,21 +49,16 @@ const Collapse = ({ open }: { open: boolean }) => {
           open ? "rounded-none shadow-md" : ""
         } border-t-[1px]`}
       >
-        <Button
-          className="mb-6"
-          // onClick={async () => {
-          //   if (!events) return;
-          //   const e = [...events];
-          //   e.unshift(...e.splice(1, 1));
-          //   dispatch(setEvents(e));
-          //   const c = await getContestants(e[0]?.event_name);
-          //   dispatch(setContestants(c || null));
-          // }}
-          placeholder=""
-          key="conttestantButton"
-        >
+        <Button className="mb-6" placeholder="" key="conttestantButton">
           {events ? events[0].event_name : "no event"}
         </Button>
+        {user?.is_admin && (
+          <a href="/admin">
+            <Button className="mb-6" placeholder="" key="conttestantButton">
+              Admin
+            </Button>
+          </a>
+        )}
         <Typography
           placeholder={""}
           variant="paragraph"

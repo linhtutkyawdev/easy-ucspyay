@@ -25,7 +25,7 @@ export async function createEvent(
       sql: "INSERT INTO events VALUES (?,?);",
       args: [event_name, event_day],
     });
-    console.log("1");
+    console.log("Step-1");
 
     await turso.execute(`CREATE TABLE IF NOT EXISTS "${event_name}_contestants" (
       "id" VARCHAR(15) NOT NULL UNIQUE,
@@ -38,14 +38,14 @@ export async function createEvent(
       PRIMARY KEY ("contestant_no","gender"),
       FOREIGN KEY ("id") REFERENCES "users" ("id")
       );`);
-    console.log("2");
+    console.log("Step-2");
 
     await turso.execute(`CREATE TABLE IF NOT EXISTS "${event_name}_titles" (
       "name" VARCHAR(255) NOT NULL,
       "allowed_contestant_group" VARCHAR(15),
       PRIMARY KEY ("name")
       );`);
-    console.log("3");
+    console.log("Step-3");
 
     // -- King, Popular, Handsome, Smart, Queen, Smile, Glory, Atteaction, Innocent, BestCouple - G2, All K, All Q, J
     titles.map(async (t) => {
@@ -61,7 +61,7 @@ export async function createEvent(
         FOREIGN KEY ("receiver") REFERENCES "users" ("id")
         );`);
     });
-    console.log("4");
+    console.log("Step-4");
 
     await turso.execute(`CREATE TABLE IF NOT EXISTS "${event_name}_voting_results" (
         "title" VARCHAR(15) NOT NULL,
@@ -70,7 +70,7 @@ export async function createEvent(
         FOREIGN KEY ("winner") REFERENCES "users" ("id"),
         FOREIGN KEY ("title") REFERENCES "${event_name}_titles" ("name")
         );`);
-    console.log("5");
+    console.log("Step-5");
   } catch (error) {
     console.log(error);
     return "An error has occured! :(";

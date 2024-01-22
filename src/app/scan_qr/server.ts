@@ -51,7 +51,6 @@ export async function verifySecret(
         args: [secret],
       })
     ).rows[0]?.key as string;
-    console.log(verificationKey);
 
     if (verificationKey) {
       deleteAfterVerify &&

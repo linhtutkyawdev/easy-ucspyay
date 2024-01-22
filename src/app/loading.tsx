@@ -2,7 +2,7 @@
 import React from "react";
 import { Spinner } from "@material-tailwind/react";
 
-const loading = () => {
+const Loading = () => {
   return (
     <div className="w-full h-[90vh] flex items-center">
       <Spinner className="h-16 w-16 text-gray-900/50 mx-auto my-auto" />
@@ -10,4 +10,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loading;
