@@ -1,21 +1,56 @@
 "use client";
 import { QrScanner } from "@yudiel/react-qr-scanner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { addContestant, addUser, getCount, verifySecret } from "../server";
 import Navbar from "@/app/client/navbar";
 import { updateUser } from "@/app/server";
+import DialogSelect from "@/app/client/dialogSelect";
+import DialogInput from "@/app/client/dialogInput";
 
 const Scanner = () => {
   const [data, setData] = useState<string | null>(null);
+  const [gender, setGender] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [height, setHeight] = useState("");
+  const [key, setKey] = useState("");
+  const [gopen, setgOpen] = useState(false);
+  const [nopen, setnOpen] = useState(false);
+  const [hopen, sethOpen] = useState(false);
   const user = useUser();
+  useEffect(() => {
+    (async () => {
+      if (!user.user || !gender || !nickName || !height || !key) return;
+
+      const contestant_no = await getCount(key, "gender", gender);
+      confirm(
+        `Contestant Verification for :${key}: No. ${contestant_no + 1}\nName: ${
+          user.user.firstName + " " + user.user.lastName
+        }\nGender: ${gender}\nNick Name: ${nickName}\nHeight: ${height}\n\nPLEASE CONFIRM THAT THE INFORMATION IS CORRECT!!`
+      ) &&
+        (await addContestant(
+          {
+            id: user.user.id,
+            full_name: user.user.firstName + " " + user.user.lastName,
+            image_url: user.user.imageUrl,
+            gender,
+            contestant_no: contestant_no + 1,
+            nick_name: nickName,
+            height,
+          },
+          key
+        )) &&
+        setData("Noice");
+      setKey("");
+    })();
+  }, [user, key, gender, nickName, height]);
 
   return (
     <>
       <Navbar white />
       <div className="flex flex-col items-center justify-center h-screen max-w-[400px] mx-auto">
         {data ||
-          (user.user?.id && (
+          (user.user?.id && !key && (
             <>
               <QrScanner
                 // onDecode={(result) => console.log(result)}
@@ -60,61 +95,8 @@ const Scanner = () => {
                       ))
                     )
                       return setData("Verification is no longer valid!!!");
-                    let gender: string | null = null,
-                      nick_name: string | null = null,
-                      height: string | null = null;
-                    while (gender == null) {
-                      gender = prompt("Enter your gender: male  | female");
-                      if (gender == "exit") return;
-                      if (gender != "male" && gender != "female") {
-                        alert("Invalid gender!!!");
-                        gender = null;
-                      }
-                    }
-                    while (nick_name == null) {
-                      nick_name = prompt(
-                        "Enter your nick_name: must be less than 12 letters"
-                      );
-                      if (!nick_name || (nick_name && nick_name.length >= 12)) {
-                        alert("Invalid nick_name!!!");
-                        nick_name = null;
-                      }
-                    }
-                    while (!height || (height && height.length >= 10)) {
-                      height = prompt("Enter your height: X' Y\"");
-                      if (height && height.length >= 12) {
-                        alert("Invalid height!!!");
-                        height = null;
-                      }
-                    }
-
-                    const contestant_no = await getCount(
-                      keyword,
-                      "gender",
-                      gender
-                    );
-
-                    confirm(
-                      `Contestant Verification for :${keyword}: No. ${
-                        contestant_no + 1
-                      }\nName: ${
-                        user.user.firstName + " " + user.user.lastName
-                      }\nGender: ${gender}\nNick Name: ${nick_name}\nHeight: ${height}\n\nPLEASE CONFIRM THAT THE INFORMATION IS CORRECT!!`
-                    ) &&
-                      (await addContestant(
-                        {
-                          id: user.user.id,
-                          full_name:
-                            user.user.firstName + " " + user.user.lastName,
-                          image_url: user.user.imageUrl,
-                          gender,
-                          contestant_no: contestant_no + 1,
-                          nick_name,
-                          height,
-                        },
-                        keyword
-                      )) &&
-                      setData("Noice");
+                    setKey(keyword);
+                    setgOpen(true);
                   } else
                     alert(
                       `INVALID TYPE OF QR READ!!!\nQR: ${result.getText()}\n`
@@ -126,6 +108,39 @@ const Scanner = () => {
             </>
           ))}
       </div>
+      <DialogSelect
+        open={gopen}
+        toggleOpen={() => {
+          setgOpen(false);
+        }}
+        label="Choose your gender!"
+        options={["male", "female"]}
+        setValue={(v: string) => {
+          setGender(v);
+          setnOpen(true);
+        }}
+      />
+      <DialogInput
+        open={nopen}
+        toggleOpen={() => {
+          nickName && setnOpen(false);
+        }}
+        label="Enter your nick name!"
+        setValue={(v: string) => {
+          setNickName(v);
+          sethOpen(true);
+        }}
+      />
+      <DialogInput
+        open={hopen}
+        toggleOpen={() => {
+          height && sethOpen(false);
+        }}
+        label="Enter your height!"
+        setValue={(v: string) => {
+          setHeight(v);
+        }}
+      />
     </>
   );
 };
