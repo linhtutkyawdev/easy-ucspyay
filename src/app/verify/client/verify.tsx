@@ -21,11 +21,10 @@ const Verify = () => {
   useEffect(() => {
     (async () => {
       if (!isLoading && !secret && user) {
-        console.log("fuck");
         await setUserSecret(user.id);
       }
     })();
-  }, [secret, isLoading]);
+  }, [secret, isLoading, user]);
 
   if (!user) return "No User";
 
