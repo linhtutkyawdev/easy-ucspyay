@@ -1,4 +1,8 @@
-import { QrCodeIcon, UserIcon } from "@heroicons/react/24/solid";
+import {
+  ClipboardDocumentCheckIcon,
+  QrCodeIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 import {
   Collapse as Clp,
   Typography,
@@ -27,7 +31,7 @@ function NavItem({ children, href }: NavItemProps) {
   );
 }
 
-const Collapse = ({ open }: { open: boolean }) => {
+const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
   const events = useAppSelector((state) => state.event.events);
   const user = useAppSelector((state) => state.user.user);
   const votesLeft = useAppSelector((state) => state.user.votesLeft);
@@ -58,6 +62,11 @@ const Collapse = ({ open }: { open: boolean }) => {
       ),
       href: "scan_qr",
     },
+    {
+      name: "Votes Histories",
+      icon: ClipboardDocumentCheckIcon,
+      href: "histories",
+    },
   ];
   if (user?.is_admin)
     NAV_MENU = [
@@ -70,7 +79,7 @@ const Collapse = ({ open }: { open: boolean }) => {
     ];
   if (!events) return;
   return (
-    <Clp open={open}>
+    <Clp open={open} className={`${relative ? "fixed" : ""}`}>
       <div
         className={`container mx-auto mt-4 rounded-lg bg-white px-6 py-5 ${
           open ? "rounded-none shadow-md" : ""
