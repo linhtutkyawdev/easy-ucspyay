@@ -1,3 +1,4 @@
+"use server";
 import { turso } from "@/lib/utils";
 
 export async function getEvents(): Promise<
@@ -83,23 +84,6 @@ export async function addUser(user: {
         user.ucspyay_mail,
         user.is_admin,
       ],
-    });
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-}
-
-export async function updateUser(
-  id: string,
-  field: string,
-  value: string
-): Promise<boolean> {
-  try {
-    await turso.execute({
-      sql: `UPDATE users SET ${field} = ? WHERE id = ?;`,
-      args: [value, id],
     });
     return true;
   } catch (e) {
