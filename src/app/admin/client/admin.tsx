@@ -1,21 +1,16 @@
 "use client";
 
 import { useAppSelector } from "@/lib/hooks";
-
-import { Button } from "@material-tailwind/react";
 import { createEvent, addContestantSecret, removeSecret } from "../server";
-
 import useSWR from "swr";
 import { useEffect } from "react";
-import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
+import { Button } from "@material-tailwind/react";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
   const user = useAppSelector((state) => state.user.user);
-
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
   const { data: secrets, isLoading } = useSWR<
     {
       key: string;
@@ -141,8 +136,10 @@ const Admin = () => {
 
   return (
     <main>
-      <Navbar white />
-      <Button placeholder="createEvent">Create an event!</Button>
+      {/* <Navbar white /> */}
+      <Button onClick={handleCreateEvent} placeholder="createEvent">
+        Create an event!
+      </Button>
       {secrets && <GenerateQR secret={secrets[0]?.key} />}
     </main>
   );
