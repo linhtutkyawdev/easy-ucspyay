@@ -96,7 +96,7 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
         >
           Votes Left : {(votesLeft && votesLeft.length) || 0}{" "}
           <span className="hidden md:block capitalize">
-            {votesLeft && votesLeft.length > 0 && "=>" + votesLeft?.join(", ")}
+            {votesLeft && votesLeft.length > 0 && "=> " + votesLeft?.join(", ")}
           </span>
         </Typography>
         <Progress

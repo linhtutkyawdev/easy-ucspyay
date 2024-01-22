@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <StoreProvider>
       <ThemeProvider>
         <html lang="en">
-          <body>{children}</body>
+          <body className="min-h-screen">{children}</body>
         </html>
       </ThemeProvider>
     </StoreProvider>
