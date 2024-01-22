@@ -30,8 +30,6 @@ export async function getUser(event_name?: string): Promise<{
 
       const user = await currentUser();
 
-      console.log(existingUser);
-
       if (!user) return null;
 
       // find ucspyay@mail

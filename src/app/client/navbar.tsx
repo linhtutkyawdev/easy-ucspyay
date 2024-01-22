@@ -18,11 +18,7 @@ import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 import Collapse from "./collapse";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  moveContestantGroupToStart,
-  setContestants,
-  setEvents,
-} from "@/lib/features/event/eventSlice";
+import { moveContestantGroupToStart } from "@/lib/features/event/eventSlice";
 
 const CONTESTANT_GROUPS = [
   {
@@ -78,7 +74,7 @@ export function Navbar({
       fullWidth
       blurred={false}
       color={isScrolling ? "white" : "transparent"}
-      className="fixed top-0 z-50 border-0 shadow-md"
+      className={`fixed top-0 z-50 border-0 ${isScrolling && "shadow-md"}`}
     >
       <div className="sm:container mx-auto flex items-center justify-between">
         <Link href="/">

@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { useEffect } from "react";
 import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
+import Loading from "@/app/loading";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
@@ -27,8 +28,7 @@ const Admin = () => {
     })();
   }, [secrets, isLoading, events]);
 
-  if (!events || events.length == 0) return "No Event";
-  if (!user) return "No User";
+  if (!events || events.length == 0 || !user || !secrets) return <Loading />;
   if (!user.is_admin) return "Not Admin";
 
   const handleCreateEvent = async () => {

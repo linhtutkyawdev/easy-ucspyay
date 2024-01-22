@@ -113,32 +113,12 @@ export default function StoreProvider({
     }
   }, [contestants]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!events) return console.log("turso-event-error");
-  //     // if (!users) return console.log("turso-users-error");
-  //     if (!currentUser) return console.log("clerk-user-error");
-  //     // if (!storeRef.current) return console.log("redux-ref-error");
-  //     const ucspyay_mail = currentUser.emailAddresses.find((email) => {
-  //       const pattern = new RegExp(
-  //         `@${process.env.NEXT_PUBLIC_VALID_EMAIL_DOMAIN}$`,
-  //         "i"
-  //       );
-  //       return pattern.test(email.emailAddress);
-  //     })?.emailAddress;
-  //     // if (!ucspyay_mail) return console.log(ucspyay_mail || "");
-  //     const serverEvents = await getEvents();
-  //     console.log(serverEvents);
-  //     console.log(ucspyay_mail);
-  //   })();
-  // }, [events, users, currentUser]);
-
   useEffect(() => {
     (async () => {
-      if (!events) return console.log("turso-event-error");
-      if (!users) return console.log("turso-users-error");
-      if (!currentUser) return console.log("clerk-user-error");
-      if (!storeRef.current) return console.log("redux-ref-error");
+      if (!events) return;
+      if (!users) return;
+      if (!currentUser) return;
+      if (!storeRef.current) return;
 
       // const exisitingUser = users.find((u) => u.id == user.id);
       // const exisitingContestant = contestants.find((u) => u.id == user.id);
@@ -151,7 +131,7 @@ export default function StoreProvider({
         return pattern.test(email.emailAddress);
       })?.emailAddress;
 
-      if (!ucspyay_mail) return console.log(ucspyay_mail || "");
+      if (!ucspyay_mail) return;
 
       if (!users.find((u) => u.id == currentUser.id)) {
         const newUser = {
@@ -167,7 +147,7 @@ export default function StoreProvider({
         );
       }
 
-      if (!user) return console.log("turso-user-error");
+      if (!user) return;
 
       if (currentUser.imageUrl != user.image_url) {
         (await updateUser(currentUser.id, "image_url", currentUser.imageUrl)) &&
@@ -175,10 +155,11 @@ export default function StoreProvider({
       }
       if (currentUser.fullName && currentUser.fullName != user.full_name)
         (await updateUser(currentUser.id, "full_name", currentUser.fullName)) &&
-          console.log(user);
+          console.log("updated fullname");
 
       if (ucspyay_mail && ucspyay_mail != user.ucspyay_mail)
         await updateUser(currentUser.id, "ucspyay_mail", ucspyay_mail);
+      console.log("updated mail");
 
       if (contestant) {
         if (currentUser.imageUrl != contestant.image_url)
