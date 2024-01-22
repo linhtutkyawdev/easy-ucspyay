@@ -41,9 +41,11 @@ const CONTESTANT_GROUPS = [
 export function Navbar({
   white,
   voting,
+  relative,
 }: {
   white?: boolean;
   voting?: boolean;
+  relative?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(white || false);
@@ -78,7 +80,7 @@ export function Navbar({
       fullWidth
       blurred={false}
       color={isScrolling ? "white" : "transparent"}
-      className="fixed top-0 z-50 border-0 shadow-md"
+      className={`${relative ? "relative" : "fixed"} top-0 z-50 border-0`}
     >
       <div className="sm:container mx-auto flex items-center justify-between">
         <Link href="/">
@@ -190,7 +192,7 @@ export function Navbar({
               ]}
         </div>
       </div>
-      <Collapse open={open} />
+      <Collapse open={open} relative={relative ? true : false} />
     </MTNavbar>
   );
 }
