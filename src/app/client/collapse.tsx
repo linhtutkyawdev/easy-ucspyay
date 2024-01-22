@@ -1,4 +1,7 @@
-import { QrCodeIcon } from "@heroicons/react/24/solid";
+import {
+  QrCodeIcon,
+  ClipboardDocumentCheckIcon,
+} from "@heroicons/react/24/solid";
 import {
   Collapse as Clp,
   Typography,
@@ -12,6 +15,11 @@ const NAV_MENU = [
     name: "Share QR code",
     icon: QrCodeIcon,
     href: "verify",
+  },
+  {
+    name: "Votes Histories",
+    icon: ClipboardDocumentCheckIcon,
+    href: "histories",
   },
 ];
 interface NavItemProps {
@@ -34,7 +42,7 @@ function NavItem({ children, href }: NavItemProps) {
   );
 }
 
-const Collapse = ({ open }: { open: boolean }) => {
+const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
   const events = useAppSelector((state) => state.event.events);
   const votesLeft = useAppSelector((state) => state.user.votesLeft);
 
@@ -42,7 +50,7 @@ const Collapse = ({ open }: { open: boolean }) => {
 
   if (!events) return;
   return (
-    <Clp open={open}>
+    <Clp open={open} className={`${relative ? "fixed" : ""}`}>
       <div className="container mx-auto mt-4 rounded-lg bg-white px-6 py-5">
         <Button
           className="mb-6"
