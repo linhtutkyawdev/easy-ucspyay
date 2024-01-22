@@ -24,7 +24,7 @@ export default function Voting() {
   };
 
   return (
-    <main>
+    <main className="bg-blue-gray-50">
       <Navbar white voting />
       {contestants &&
         (contestant_groups[0] == "male" || contestant_groups[0] == "female" ? (
@@ -49,7 +49,7 @@ export default function Voting() {
         ) : (
           <Slider
             {...settings}
-            className="couple-card-body md:!w-[60vw] md:!h-[95vh] !w-[86vw] !h-[90vh]  md:pt-32 pt-20 mx-auto"
+            className="couple-card-body lg:!w-[60vw] lg:!h-[100vh] !w-[86vw] !h-[96vh]  md:pt-32 pt-20 mx-auto lg:-mt-8"
           >
             {contestants
               .filter((c) => c.gender == "male")

@@ -43,7 +43,11 @@ const Collapse = ({ open }: { open: boolean }) => {
   if (!events) return;
   return (
     <Clp open={open}>
-      <div className="container mx-auto mt-4 rounded-lg bg-white px-6 py-5">
+      <div
+        className={`container mx-auto mt-4 rounded-lg bg-white px-6 py-5 ${
+          open ? "rounded-none shadow-md" : ""
+        } border-t-[1px]`}
+      >
         <Button
           className="mb-6"
           // onClick={async () => {

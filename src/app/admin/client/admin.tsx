@@ -1,11 +1,11 @@
 "use client";
-
 import { useAppSelector } from "@/lib/hooks";
+import { Button, Typography } from "@material-tailwind/react";
 import { createEvent, addContestantSecret, removeSecret } from "../server";
 import useSWR from "swr";
 import { useEffect } from "react";
+import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
-import { Button } from "@material-tailwind/react";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
@@ -135,12 +135,21 @@ const Admin = () => {
   };
 
   return (
-    <main>
-      {/* <Navbar white /> */}
-      <Button onClick={handleCreateEvent} placeholder="createEvent">
-        Create an event!
-      </Button>
-      {secrets && <GenerateQR secret={secrets[0]?.key} />}
+    <main className="bg-blue-gray-50">
+      <Navbar white />
+      <div className="flex items-center flex-col justify-center gap-4 h-[100vh] ">
+        <Typography placeholder="" variant="h5">
+          Scan This QR
+        </Typography>
+        {secrets && <GenerateQR secret={secrets[0]?.key} />}
+        <Button
+          onClick={handleCreateEvent}
+          placeholder="createEvent"
+          className="w-40"
+        >
+          Create an event!
+        </Button>
+      </div>
     </main>
   );
 };

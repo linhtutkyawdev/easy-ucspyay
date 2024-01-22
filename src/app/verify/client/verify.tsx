@@ -7,6 +7,8 @@ import GenerateQR from "./generate-qr";
 import useSWR from "swr";
 import { useEffect } from "react";
 import { setUserSecret } from "../server";
+import { Typography } from "@material-tailwind/react";
+import Navbar from "@/app/client/navbar";
 
 const Verify = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -28,7 +30,17 @@ const Verify = () => {
 
   if (!user) return "No User";
 
-  return <main>{secret?.key && <GenerateQR secret={secret.key} />}</main>;
+  return (
+    <main>
+      <Navbar white />
+      <div className="flex items-center flex-col justify-center gap-4 h-[100vh] ">
+        <Typography variant="h5" placeholder="">
+          Scan The QR
+        </Typography>
+        {secret?.key && <GenerateQR secret={secret.key} />}
+      </div>
+    </main>
+  );
 };
 
 export default Verify;

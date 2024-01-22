@@ -28,7 +28,7 @@ const Couple_card = ({
   return (
     <div className="container2 flex-col">
       <div className="text-lg font-black mt-4 font-sans">Couple - {3}</div>
-      <div className="flex flex-col lg:flex-row mb-2">
+      <div className="flex flex-col lg:flex-row -lg:my-6 lg:-mb-14">
         <div className="box">
           <div className="imgBox">
             <img src={male.image_url} alt="" />
@@ -39,7 +39,7 @@ const Couple_card = ({
             </h2>
           </div>
         </div>
-        <div className="box reverse">
+        <div className="box reverse !mt-20 xs:!mt-12">
           <div className="imgBox">
             <img src={female.image_url} alt="" />
           </div>
