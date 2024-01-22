@@ -269,14 +269,12 @@ export async function voteReceiver(
   id: string
 ): Promise<string | null> {
   try {
-    console.log(title);
-
     return (
       await turso.execute({
         sql: `SELECT receiver FROM "${event_name}_${title}" WHERE voter = ? ;`,
         args: [id],
       })
-    ).rows[0].receiver as string;
+    ).rows[0]?.receiver as string;
   } catch (e) {
     console.log(e);
     return null;

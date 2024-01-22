@@ -2,32 +2,282 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground h-full;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  /*COLORS*/
+  --white: #fff;
+  --shadow: #000;
+  --green: #4b5243;
+  --dgreen: #000;
+
+  /*FONTS*/
+  --mono: "source-code-pro";
+  --display: "lust-sans";
+
+  /* DURATION */
+  --duration: 0.4s;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.minip {
+  @apply w-[300px] h-[450px] m-auto bg-white relative shadow shadow-indigo-600;
+}
+
+.minip .mg {
+  @apply w-full h-[200px] absolute top-0 left-0 grid grid-cols-[250px,50px] grid-rows-[100px,150px];
+  grid-template-areas:
+    "clr group"
+    "clr .....";
+  transition: grid-template-columns var(--duration) linear,
+    grid-template-rows var(--duration) linear;
+}
+.minip:hover .mg {
+  @apply grid-cols-[150px,150px] grid-rows-[50px,300px];
+  transition: grid-template-columns var(--duration) linear,
+    grid-template-rows var(--duration) linear;
+}
+.minip .mg .clr {
+  @apply bg-blue-gray-900;
+  grid-area: clr;
+}
+.minip .mg .group {
+  @apply uppercase tracking-[1px] flex items-center justify-center;
+  font: 10px/10px var(--mono);
+  writing-mode: vertical-lr;
+}
+.minip .mg .group span {
+  @apply block rotate-180;
+  transition: transform var(--duration) linear;
+}
+.minip:hover .mg .group span {
+  @apply block rotate-[270deg];
+  transition: transform var(--duration) linear;
+}
+
+.minip .av {
+  @apply w-[200px] h-[350px] absolute bottom-0 right-0 bg-blue-gray-900 bg-cover;
+  background-position: top center;
+  transition: width var(--duration) linear, height var(--duration) linear;
+}
+.minip:hover .av {
+  @apply w-[250px] h-[400px];
+  transition: width var(--duration) linear, height var(--duration) linear;
+}
+
+.minip .info {
+  @apply w-[160px] max-h-[120px] p-[25px] absolute bottom-[100px] left-0 flex flex-col flex-nowrap justify-center content-start bg-indigo-200;
+  transition: bottom var(--duration) linear;
+}
+.minip:hover .info {
+  @apply bottom-[50px];
+  transition: bottom var(--duration) linear;
+}
+.minip .info name {
+  @apply block tracking-[1px] indent-[-25px] m-[0,0,10px,25px];
+  font: 200 25px/30px var(--display);
+}
+.minip .info deets {
+  @apply uppercase tracking-[1px];
+  font: 10px/15px var(--mono);
+}
+
+.minip a.plot {
+  @apply w-[110px] h-[30px] absolute bottom-[85px] left-[85px] bg-blue-gray-900 uppercase text-white no-underline tracking-[1px] flex items-center justify-center;
+  font: 10px/10px var(--mono);
+  transition: bottom var(--duration) linear;
+}
+.minip:hover a.plot {
+  @apply bottom-[35px];
+  transition: bottom var(--duration) linear;
+}
+.slick-arrow.slick-prev::before,
+.slick-arrow.slick-prev::after,
+.slick-arrow.slick-next::before,
+.slick-arrow.slick-next::after {
+  @apply text-blue-gray-900 text-lg;
+}
+
+.couple-card-body {
+  width: 100vw;
+  /* min-height: 100vh; */
+  background-color: #f0f0f0;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container2 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container2 .box {
+  position: relative;
+  width: 60vw;
+  height: 60vw;
+  @apply lg:w-[15rem] lg:h-[15rem];
+  margin: 3rem 0rem;
+}
+
+/* .container2 .box:hover .imgBox {
+  transform: translate(-1.5rem, -1.5rem);
+}
+
+.container2 .box:hover .content {
+  transform: translate(1.5rem, 1.5rem);
+}
+
+.container2 .reverse:hover .imgBox {
+  transform: translate(1.5rem, -1.5rem);
+}
+
+.container2 .reverse:hover .content {
+  transform: translate(-1.5rem, 1.5rem);
+} */
+
+.container2 .box:hover .content {
+  transform: translate(-3rem, -3rem);
+}
+
+.container2 .reverse:hover .content {
+  transform: translate(3rem, -3rem);
+}
+
+.imgBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transition: all 0.5s ease-in-out;
+}
+
+.imgBox img {
+  width: 60vw;
+  height: 60vw;
+  @apply lg:w-[15rem] lg:h-[15rem];
+  object-fit: cover;
+  resize: both;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  z-index: 1;
+  align-items: flex-start;
+  text-align: center;
+  transition: 0.5s ease-in-out;
+}
+
+.content h2 {
+  @apply p-3;
+  display: block;
+  font-size: 1rem;
+  color: #111;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.content span {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 960px) {
+  .container2 .box:hover .imgBox {
+    transform: translate(-1.5rem, -1.5rem);
+  }
+
+  .container2 .box:hover .content {
+    transform: translate(1.5rem, 1.5rem);
+  }
+
+  .content {
+    align-items: flex-end;
   }
 }
