@@ -49,7 +49,7 @@ export default function Voting() {
         ) : (
           <Slider
             {...settings}
-            className="couple-card-body md:!w-[60vw] md:!h-[95vh] !w-[86vw] !h-[90vh]  md:pt-32 pt-20 mx-auto"
+            className="couple-card-body lg:!w-[60vw] lg:!h-[100vh] !w-[86vw] !h-[96vh]  md:pt-32 pt-20 mx-auto lg:-mt-8"
           >
             {contestants
               .filter((c) => c.gender == "male")

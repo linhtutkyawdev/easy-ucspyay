@@ -72,6 +72,7 @@ const config: Config = withMT({
         xs: { max: "475px" },
         "2xs": { max: "400px" },
         "3xs": { max: "300px" },
+        "-lg": { max: "960px" },
       },
     },
   },
