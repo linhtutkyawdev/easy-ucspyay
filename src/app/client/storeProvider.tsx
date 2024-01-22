@@ -162,7 +162,10 @@ export default function StoreProvider({
       console.log("updated mail");
 
       if (contestant) {
-        if (currentUser.imageUrl != contestant.image_url)
+        if (
+          contestant.image_url &&
+          currentUser.imageUrl != contestant.image_url
+        )
           await updateContestant(
             events[0].event_name,
             currentUser.id,
