@@ -327,3 +327,23 @@ export async function getResults(
     return null;
   }
 }
+
+export async function getAllResults(
+  event_name: string
+): Promise<{ title: string; winners?: string[] }[] | null> {
+  try {
+    const titles = await getTitles(event_name);
+    if (!titles || titles?.length == 0) return null;
+    return await Promise.all(
+      titles.map(async (t) => {
+        return {
+          title: t.name,
+          winners: (await getResults(event_name, t.name))?.map((w) => w.id),
+        };
+      })
+    );
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
