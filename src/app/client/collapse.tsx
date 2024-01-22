@@ -50,7 +50,7 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
 
   if (!events) return;
   return (
-    <Clp open={open}>
+    <Clp open={open} className={`${relative ? "fixed" : ""}`}>
       <div
         className={`container mx-auto mt-4 rounded-lg bg-white px-6 py-5 ${
           open ? "rounded-none shadow-md" : ""
