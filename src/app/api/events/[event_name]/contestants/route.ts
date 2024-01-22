@@ -11,5 +11,5 @@ export const GET = async (
     };
   }
 ) => {
-  return NextResponse.json(await getContestants(event_name));
+  return NextResponse.json((await getContestants(event_name)) || "");
 };

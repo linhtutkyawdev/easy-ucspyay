@@ -11,5 +11,5 @@ export const GET = async (
     };
   }
 ) => {
-  return NextResponse.json(await getSecret(id));
+  return NextResponse.json((await getSecret(id)) || "");
 };

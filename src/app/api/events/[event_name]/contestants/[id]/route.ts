@@ -12,5 +12,5 @@ export const GET = async (
     };
   }
 ) => {
-  return NextResponse.json(await getContestant(event_name, id));
+  return NextResponse.json((await getContestant(event_name, id)) || "");
 };
