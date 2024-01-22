@@ -6,7 +6,7 @@ import Faq from "./client/faq";
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-white">
       <Navbar />
       <Hero />
       <Faq />

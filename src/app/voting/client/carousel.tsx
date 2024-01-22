@@ -24,7 +24,7 @@ export default function Voting() {
   };
 
   return (
-    <main>
+    <main className="bg-blue-gray-50">
       <Navbar white voting />
       {contestants &&
         (contestant_groups[0] == "male" || contestant_groups[0] == "female" ? (
