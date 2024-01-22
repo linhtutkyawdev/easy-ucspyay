@@ -1,4 +1,3 @@
-import { getRemainingVotableTitles } from "@/lib/utils";
 import { QrCodeIcon } from "@heroicons/react/24/solid";
 import {
   Collapse as Clp,
@@ -6,8 +5,6 @@ import {
   Progress,
   Button,
 } from "@material-tailwind/react";
-import { setContestants, setEvents } from "@/lib/features/event/eventSlice";
-import { getContestants } from "@/app/api/server";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
 const NAV_MENU = [
