@@ -46,7 +46,7 @@ const ContestantCard = ({
       )
     )?.sort();
     if (!applicableTitles || !(applicableTitles.length > 0))
-      return alert("No more vote is applicable!");
+      return alert("No votes left!");
     setApplicableTitles(applicableTitles);
     setOpen(true);
   };

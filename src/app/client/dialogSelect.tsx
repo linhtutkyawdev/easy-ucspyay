@@ -27,7 +27,7 @@ const DialogSelect = ({
       handler={close}
     >
       {label}
-      <DialogBody placeholder="" className="p-0 bg-transparent">
+      <DialogBody placeholder="" className="p-0 pt-4 bg-transparent">
         <ButtonGroup placeholder="" className="grid grid-cols-1">
           {options.map((o) => (
             <Button
