@@ -26,6 +26,14 @@ export default function StoreProvider({
     }[]
   >("/api/events", fetcher);
 
+  const { data: user, isLoading: isUserLoading } = useSWR<{
+    id: string;
+    full_name: string;
+    image_url: string;
+    ucspyay_mail: string;
+    is_admin: boolean;
+  }>(currentUser?.id ? `/api/users/${currentUser.id}` : null, fetcher);
+
   const { data: users } = useSWR<
     {
       id: string;
@@ -35,14 +43,6 @@ export default function StoreProvider({
       is_admin: boolean;
     }[]
   >("/api/users", fetcher);
-
-  const { data: user } = useSWR<{
-    id: string;
-    full_name: string;
-    image_url: string;
-    ucspyay_mail: string;
-    is_admin: boolean;
-  }>(currentUser?.id ? `/api/users/${currentUser.id}` : null, fetcher);
 
   const { data: contestants } = useSWR<
     {
@@ -56,7 +56,7 @@ export default function StoreProvider({
     }[]
   >(events ? `/api/events/${events[0].event_name}/contestants` : null, fetcher);
 
-  const { data: contestant } = useSWR<{
+  const { data: contestant, isLoading: isContestantLoading } = useSWR<{
     contestant_no: number;
     id: string;
     full_name: string;
@@ -89,16 +89,16 @@ export default function StoreProvider({
   }, [events]);
 
   useEffect(() => {
-    if (users && storeRef.current) {
-      storeRef.current.dispatch(setUsers(users));
-    }
-  }, [users]);
-
-  useEffect(() => {
     if (user && storeRef.current) {
       storeRef.current.dispatch(setUser(user));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (users && storeRef.current) {
+      storeRef.current.dispatch(setUsers(users));
+    }
+  }, [users]);
 
   useEffect(() => {
     if (votesLeft && storeRef.current) {
@@ -114,56 +114,61 @@ export default function StoreProvider({
 
   useEffect(() => {
     (async () => {
-      if (!events) return;
-      if (!users) return;
-      if (!currentUser) return;
-      if (!storeRef.current) return;
+      if (currentUser && !isUserLoading) {
+        const ucspyay_mail = currentUser.emailAddresses.find((email) => {
+          const pattern = new RegExp(
+            `@${process.env.NEXT_PUBLIC_VALID_EMAIL_DOMAIN}$`,
+            "i"
+          );
+          return pattern.test(email.emailAddress);
+        })?.emailAddress;
+        if (!user) {
+          if (!ucspyay_mail) return;
+          const newUser = {
+            id: currentUser.id,
+            full_name: currentUser.fullName || "Name Not Found!",
+            image_url: currentUser.imageUrl,
+            ucspyay_mail,
+            is_admin: false,
+          };
 
-      // const exisitingUser = users.find((u) => u.id == user.id);
-      // const exisitingContestant = contestants.find((u) => u.id == user.id);
+          if (!storeRef.current) return;
+          return (
+            (await addUser(newUser)) &&
+            storeRef.current.dispatch(setUser(newUser))
+          );
+        }
+        if (currentUser.imageUrl != user.image_url) {
+          (await updateUser(
+            currentUser.id,
+            "image_url",
+            currentUser.imageUrl
+          )) && console.log("updated img");
+        }
 
-      const ucspyay_mail = currentUser.emailAddresses.find((email) => {
-        const pattern = new RegExp(
-          `@${process.env.NEXT_PUBLIC_VALID_EMAIL_DOMAIN}$`,
-          "i"
-        );
-        return pattern.test(email.emailAddress);
-      })?.emailAddress;
+        if (currentUser.fullName && currentUser.fullName != user.full_name)
+          (await updateUser(
+            currentUser.id,
+            "full_name",
+            currentUser.fullName
+          )) && console.log("updated fullname");
 
-      if (!ucspyay_mail) return;
+        if (
+          ucspyay_mail &&
+          user.ucspyay_mail &&
+          ucspyay_mail != user.ucspyay_mail
+        )
+          await updateUser(currentUser.id, "ucspyay_mail", ucspyay_mail);
+        console.log("updated mail");
 
-      if (!users.find((u) => u.id == currentUser.id)) {
-        const newUser = {
-          id: currentUser.id,
-          full_name: currentUser.fullName || "Name Not Found!",
-          image_url: currentUser.imageUrl,
-          ucspyay_mail,
-          is_admin: false,
-        };
-        return (
-          (await addUser(newUser)) &&
-          storeRef.current.dispatch(setUser(newUser))
-        );
-      }
+        if (isContestantLoading) return;
+        if (!contestant) return;
 
-      if (!user) return;
-
-      if (currentUser.imageUrl != user.image_url) {
-        (await updateUser(currentUser.id, "image_url", currentUser.imageUrl)) &&
-          console.log("updated img");
-      }
-      if (currentUser.fullName && currentUser.fullName != user.full_name)
-        (await updateUser(currentUser.id, "full_name", currentUser.fullName)) &&
-          console.log("updated fullname");
-
-      if (ucspyay_mail && ucspyay_mail != user.ucspyay_mail)
-        await updateUser(currentUser.id, "ucspyay_mail", ucspyay_mail);
-      console.log("updated mail");
-
-      if (contestant) {
         if (
           contestant.image_url &&
-          currentUser.imageUrl != contestant.image_url
+          currentUser.imageUrl != contestant.image_url &&
+          events &&
+          events[0]
         )
           await updateContestant(
             events[0].event_name,
@@ -174,7 +179,9 @@ export default function StoreProvider({
 
         if (
           currentUser.fullName &&
-          currentUser.fullName != contestant.full_name
+          currentUser.fullName != contestant.full_name &&
+          events &&
+          events[0]
         )
           await updateContestant(
             events[0].event_name,
@@ -182,18 +189,26 @@ export default function StoreProvider({
             "full_name",
             currentUser.fullName
           );
+
+        return storeRef.current?.dispatch(
+          setUser({
+            id: currentUser.id,
+            full_name: currentUser.fullName || "Name Not Found!",
+            image_url: currentUser.imageUrl,
+            ucspyay_mail: ucspyay_mail || "",
+            is_admin: user.is_admin || false,
+          })
+        );
       }
-      return storeRef.current.dispatch(
-        setUser({
-          id: currentUser.id,
-          full_name: currentUser.fullName || "Name Not Found!",
-          image_url: currentUser.imageUrl,
-          ucspyay_mail,
-          is_admin: user?.is_admin || false,
-        })
-      );
     })();
-  }, [users, user, events, contestant, currentUser]);
+  }, [
+    currentUser,
+    isUserLoading,
+    user,
+    isContestantLoading,
+    contestant,
+    events,
+  ]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 }
