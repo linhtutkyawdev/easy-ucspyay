@@ -150,8 +150,16 @@ export async function getUnrevealedTitles(
   event_name: string
 ): Promise<string[] | null> {
   try {
-    const titles = await getTitles(event_name);
-    if (!titles) return null;
+    const titles = [
+      "king",
+      "handsome",
+      "smart",
+      "queen",
+      "glory",
+      "attraction",
+      "smile",
+      "best_couple",
+    ];
     const revealed_titles = (
       await turso.execute(`SELECT title FROM "${event_name}_voting_results";`)
     ).rows.map((r) => r.title as string);
