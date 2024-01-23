@@ -10,12 +10,12 @@ import VerifyInfo from "./verify-info";
 export default function Voting() {
   const contestants = useAppSelector((state) => state.event.contestants);
   const user = useAppSelector((state) => state.user.user);
-
-  if (!user) return <VerifyInfo />;
+  const params = useSearchParams();
   const contestant_groups = useAppSelector(
     (state) => state.event.contestant_groups
   );
-  const params = useSearchParams();
+
+  if (!user) return <VerifyInfo />;
 
   var settings = {
     dots: true,
