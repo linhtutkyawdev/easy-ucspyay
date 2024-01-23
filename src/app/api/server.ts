@@ -124,7 +124,9 @@ export async function getContestants(event_name: string): Promise<
 > {
   try {
     return (
-      await turso.execute(`SELECT * FROM "${event_name}_contestants";`)
+      await turso.execute(
+        `SELECT * FROM "${event_name}_contestants" ORDER BY contestant_no ASC;`
+      )
     ).rows.map((r) => ({
       contestant_no: r.contestant_no as number,
       id: r.id as string,
