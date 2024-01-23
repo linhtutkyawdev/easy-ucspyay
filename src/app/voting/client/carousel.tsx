@@ -5,9 +5,13 @@ import ContestantCard from "./contestant-card";
 import { useAppSelector } from "@/lib/hooks";
 import Couple_card from "./couple-card";
 import { useSearchParams } from "next/navigation";
+import VerifyInfo from "./verify-info";
 
 export default function Voting() {
   const contestants = useAppSelector((state) => state.event.contestants);
+  const user = useAppSelector((state) => state.user.user);
+
+  if (!user) return <VerifyInfo />;
   const contestant_groups = useAppSelector(
     (state) => state.event.contestant_groups
   );

@@ -37,6 +37,19 @@ const ContestantCard = ({
 
   const handleVote = async () => {
     if (!events) return;
+    const event_date = new Date(events[0]?.event_day);
+    const present = new Date();
+    if (event_date < present) {
+      var diff = new Date(present.getTime() - event_date.getTime());
+      alert(
+        diff.getHours() +
+          " : " +
+          diff.getMinutes() +
+          " : " +
+          diff.getSeconds() +
+          " left fot the event to start!"
+      );
+    }
     if (!user) return alert("unauthorized");
     const applicableTitles = (
       await getApplicableTitles(

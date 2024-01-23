@@ -35,7 +35,7 @@ const DialogSelect = ({
               variant="text"
               placeholder=""
               className="bg-white uppercase hover:scale-110 hover:text-indigo-600 border-none border-t-2 border-b-2 rounded-none text-center text-6xl text-blue-gray-900"
-              onClick={() => setValue(o)}
+              onClick={() => setTimeout(() => setValue(o), 500)}
             >
               {o}
             </Button>

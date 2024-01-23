@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { useAppSelector } from "@/lib/hooks";
 import Loading from "@/app/loading";
 import { deleteVote } from "../server";
+import VerifyInfo from "@/app/voting/client/verify-info";
 
 const TABLE_HEAD = ["No.", "Title", "Contestant", ""];
 
@@ -28,8 +29,19 @@ const Histories = () => {
     fetcher
   );
 
-  if (isLoading || !contestants || !events || !user) return <Loading />;
-  if (!votes || votes.length == 0) return "No Vote Found!";
+  if (!user) return <VerifyInfo />;
+  if (isLoading || !contestants || !events) return <Loading />;
+  if (!votes || votes.length == 0)
+    return (
+      <div>
+        <Navbar white />
+        <div className="w-screen h-screen bg-blue-gray-50 flex flex-row items-center">
+          <div className="text-blue-gray-200 text-5xl text-center font-bold px-2 mx-auto">
+            You havn&apos;t voted anyone!
+          </div>
+        </div>
+      </div>
+    );
   return (
     <div>
       <Navbar white relative />
@@ -43,7 +55,7 @@ const Histories = () => {
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  className="border-b border-blue-gray-100 bg-blue-gray-100 p-4"
                 >
                   <Typography
                     placeholder=""

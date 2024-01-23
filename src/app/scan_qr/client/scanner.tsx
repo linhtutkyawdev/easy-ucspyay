@@ -23,11 +23,14 @@ const Scanner = () => {
       if (!user.user || !gender || !nickName || !height || !key) return;
 
       const contestant_no = await getCount(key, "gender", gender);
-      confirm(
-        `Contestant Verification for :${key}: No. ${contestant_no + 1}\nName: ${
-          user.user.firstName + " " + user.user.lastName
-        }\nGender: ${gender}\nNick Name: ${nickName}\nHeight: ${height}\n\nPLEASE CONFIRM THAT THE INFORMATION IS CORRECT!!`
-      ) &&
+      if (
+        confirm(
+          `Contestant Verification for :${key}: No. ${
+            contestant_no + 1
+          }\nName: ${
+            user.user.firstName + " " + user.user.lastName
+          }\nGender: ${gender}\nNick Name: ${nickName}\nHeight: ${height}\n\nPLEASE CONFIRM THAT THE INFORMATION IS CORRECT!!`
+        ) &&
         (await addContestant(
           {
             id: user.user.id,
@@ -39,9 +42,16 @@ const Scanner = () => {
             height,
           },
           key
-        )) &&
-        setData("Noice");
-      setKey("");
+        ))
+      ) {
+        alert(
+          "You are now a contestant with contestant no. " +
+            (contestant_no + 1) +
+            ".\n Plase edit your name and image on your profile!"
+        );
+        setKey("");
+        window.location.assign("user-profile/profile");
+      }
     })();
   }, [user, key, gender, nickName, height]);
 
@@ -50,7 +60,7 @@ const Scanner = () => {
       <Navbar white />
       <div className="flex flex-col items-center justify-center h-screen max-w-[400px] mx-auto">
         {data ||
-          (user.user?.id && !key && (
+          (user.user?.id && !gopen && !nopen && !hopen && (
             <>
               <QrScanner
                 // onDecode={(result) => console.log(result)}
@@ -74,18 +84,20 @@ const Scanner = () => {
                           user.user.firstName + " " + user.user.lastName,
                         image_url: user.user.imageUrl,
                       })) &&
-                      setData("Noice")
+                      window.location.assign("/")
                     );
 
                   if (keyword == "almighty")
-                    return (
+                    if (
                       result
                         .getText()
                         .slice(result.getText().indexOf(":") + 1) ==
                         'Lin Htut Kyaw says, "YOU ARE ADMIN!!!"' &&
-                      (await updateUser(user.user.id, "is_admin", "1")) &&
-                      setData("Noice!!! You are an admin, now!")
-                    );
+                      (await updateUser(user.user.id, "is_admin", "1"))
+                    ) {
+                      alert("Noice!!! You are an admin, now!");
+                      window.location.assign("/admin");
+                    }
 
                   if (keyword.includes("_contestant")) {
                     if (

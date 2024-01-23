@@ -6,7 +6,6 @@ import { makeStore, AppStore } from "@/lib/store";
 import { setContestants, setEvents } from "@/lib/features/event/eventSlice";
 import { setUsers, setUser, setVotesLeft } from "@/lib/features/user/userSlice";
 import { useUser } from "@clerk/nextjs";
-// import { isEndWithUCSPyayDomain } from "@/lib/utils";
 import { addUser, updateContestant } from "../api/server";
 import { updateUser } from "../server";
 
