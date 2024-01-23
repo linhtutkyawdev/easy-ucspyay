@@ -60,7 +60,6 @@ export async function verifySecret(
         }));
       return true;
     }
-
     return false;
   } catch (error) {
     console.log(error);

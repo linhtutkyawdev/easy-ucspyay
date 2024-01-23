@@ -143,11 +143,20 @@ const Admin = () => {
         </Typography>
         {secrets && <GenerateQR secret={secrets[0]?.key} />}
         <Button
+          variant="gradient"
           onClick={handleCreateEvent}
           placeholder="createEvent"
           className="w-40"
         >
           Create an event!
+        </Button>
+        <Button
+          variant="gradient"
+          onClick={handleCreateEvent}
+          placeholder="createEvent"
+          className="w-40"
+        >
+          Add a result
         </Button>
       </div>
     </main>

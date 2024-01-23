@@ -32,7 +32,7 @@ const DialogInput = ({
           }}
         />
         <br />
-        IMPORTANT: Closing the model will confirm te value.
+        IMPORTANT: Closing the model will confirm the value.
       </DialogBody>
     </Dialog>
   );

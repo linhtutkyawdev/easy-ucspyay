@@ -89,22 +89,28 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
           {events ? events[0].event_name : "no event"}
         </Button>
 
-        <Typography
-          placeholder={""}
-          variant="paragraph"
-          className="flex items-center gap-2 font-medium text-gray-900"
-        >
-          Votes Left : {(votesLeft && votesLeft.length) || 0}{" "}
-          <span className="hidden md:block capitalize">
-            {votesLeft && votesLeft.length > 0 && "=> " + votesLeft?.join(", ")}
-          </span>
-        </Typography>
-        <Progress
-          value={(votesLeft && (votesLeft.length / 8) * 100) || 0}
-          placeholder={""}
-          color="teal"
-          className="my-4"
-        />
+        {user && [
+          <Typography
+            placeholder={""}
+            variant="paragraph"
+            className="flex items-center gap-2 font-medium text-gray-900"
+            key="vl-tp"
+          >
+            Votes Left : {(votesLeft && votesLeft.length) || 0}{" "}
+            <span className="hidden md:block capitalize">
+              {votesLeft &&
+                votesLeft.length > 0 &&
+                "=> " + votesLeft?.join(", ")}
+            </span>
+          </Typography>,
+          <Progress
+            key="vl-pg"
+            value={(votesLeft && (votesLeft.length / 8) * 100) || 0}
+            placeholder={""}
+            color="teal"
+            className="my-4"
+          />,
+        ]}
         <ul className="flex flex-col gap-4 text-gray-900">
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
             <NavItem key={name} href={href}>

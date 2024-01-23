@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { setUserSecret } from "../server";
 import { Typography } from "@material-tailwind/react";
 import Navbar from "@/app/client/navbar";
+import VerifyInfo from "@/app/voting/client/verify-info";
 
 const Verify = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -28,7 +29,7 @@ const Verify = () => {
     })();
   }, [secret, isLoading, user]);
 
-  if (!user) return "No User";
+  if (!user) return <VerifyInfo />;
 
   return (
     <main>
