@@ -19,6 +19,7 @@ import Collapse from "./collapse";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { moveContestantGroupToStart } from "@/lib/features/event/eventSlice";
+import { useParams, useSearchParams } from "next/navigation";
 
 const CONTESTANT_GROUPS = [
   {
@@ -51,7 +52,7 @@ export function Navbar({
     (state) => state.event.contestant_groups
   );
   const dispatch = useAppDispatch();
-
+  const params = useSearchParams();
   const user = useUser();
 
   useEffect(() => {
@@ -68,6 +69,12 @@ export function Navbar({
       setOpen(false);
     });
   }, [white]);
+
+  let g = params.get("g");
+  useEffect(() => {
+    g && dispatch(moveContestantGroupToStart(contestant_groups.indexOf(g)));
+    g = "";
+  }, []);
 
   return (
     <MTNavbar
@@ -124,7 +131,7 @@ export function Navbar({
                       "flex items-center opacity-100 px-0 pointer-events-none",
                   })
                 }
-                value="male"
+                value={contestant_groups[0]}
               >
                 {CONTESTANT_GROUPS.map((c) => (
                   <Option

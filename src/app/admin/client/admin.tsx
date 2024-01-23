@@ -1,22 +1,48 @@
 "use client";
 import { useAppSelector } from "@/lib/hooks";
 import { Button, Typography } from "@material-tailwind/react";
-import { createEvent, addContestantSecret, removeSecret } from "../server";
+import {
+  createEvent,
+  addContestantSecret,
+  removeSecret,
+  addResult,
+  getUnrevealedTitles,
+} from "../server";
 import useSWR from "swr";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
 import Loading from "@/app/loading";
+import DialogSelect from "@/app/client/dialogSelect";
+import { getTitles } from "@/app/server";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
   const user = useAppSelector((state) => state.user.user);
+  const contestants = useAppSelector((state) => state.event.contestants);
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  const [titles, setTitles] = useState<string[] | null>(null);
+  const [revealTitle, setRevealTitle] = useState("");
+
   const { data: secrets, isLoading } = useSWR<
     {
       key: string;
     }[]
   >(user?.is_admin ? "/api/contestant_secrets" : null, fetcher);
+
+  const { data: results, isLoading: isResultLoading } = useSWR<
+    | {
+        title: string;
+        winner: string;
+      }[]
+    | null
+  >(
+    user?.id && events
+      ? `/api/events/${events[0].event_name}/votes/results`
+      : null,
+    fetcher
+  );
 
   useEffect(() => {
     (async () => {
@@ -28,8 +54,30 @@ const Admin = () => {
     })();
   }, [secrets, isLoading, events]);
 
-  if (!events || events.length == 0 || !user || !secrets) return <Loading />;
+  useEffect(() => {
+    (async () => {
+      if (revealTitle && events && events[0] && contestants && results)
+        (await addResult(
+          events[0].event_name,
+          revealTitle,
+          results.find((r) => r.title == revealTitle)?.winner || ""
+        )) && alert(revealTitle + " : Revealed");
+      setRevealTitle("");
+    })();
+  }, [revealTitle, events, contestants, results]);
+
+  if (
+    !events ||
+    events.length == 0 ||
+    !user ||
+    !secrets ||
+    isResultLoading ||
+    !contestants
+  )
+    return <Loading />;
+  if (!user) return "not authorized";
   if (!user.is_admin) return "Not Admin";
+  if (!results || results.length == 0) return "No Result Found!";
 
   const handleCreateEvent = async () => {
     let event_name: string | null = null;
@@ -142,23 +190,43 @@ const Admin = () => {
           Scan This QR
         </Typography>
         {secrets && <GenerateQR secret={secrets[0]?.key} />}
-        <Button
-          variant="gradient"
-          onClick={handleCreateEvent}
-          placeholder="createEvent"
-          className="w-40"
-        >
-          Create an event!
-        </Button>
-        <Button
-          variant="gradient"
-          onClick={handleCreateEvent}
-          placeholder="createEvent"
-          className="w-40"
-        >
-          Add a result
-        </Button>
+        <div className="flex space-x-4">
+          <Button
+            variant="gradient"
+            onClick={handleCreateEvent}
+            placeholder="createEvent"
+            className="w-40"
+          >
+            Create an event!
+          </Button>
+          <Button
+            variant="gradient"
+            onClick={async () => {
+              if (!events) return alert("No Event Detected!");
+              setTitles(await getUnrevealedTitles(events[0]?.event_name));
+            }}
+            placeholder="createEvent"
+            className="w-40"
+          >
+            Reveal a result!
+          </Button>
+        </div>
       </div>
+      {titles && (
+        <DialogSelect
+          open={titles ? true : false}
+          close={() => {
+            setTitles(null);
+          }}
+          label="Choose the title to reveal!"
+          options={titles}
+          setValue={(v: string) => {
+            setRevealTitle(v);
+            setTitles(null);
+          }}
+          sm
+        />
+      )}
     </main>
   );
 };

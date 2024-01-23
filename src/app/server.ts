@@ -206,12 +206,13 @@ export async function getTitles(event_name: string): Promise<string[] | null> {
   try {
     return (
       await turso.execute(`SELECT * FROM "${event_name}_titles";`)
-    ).rows.map((r) => r.title_name as string);
+    ).rows.map((r) => r.name as string);
   } catch (e) {
     console.log(e);
     return null;
   }
 }
+
 export async function isVoted(
   event_name: string,
   title: string,
