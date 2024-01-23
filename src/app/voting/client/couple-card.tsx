@@ -43,17 +43,19 @@ const Couple_card = ({
   }, [events, title, user, male, confirm]);
   const handleVote = async () => {
     if (!events) return;
-    const event_date = new Date(events[0]?.event_day);
-    const present = new Date();
-    if (event_date < present) {
-      var diff = new Date(present.getTime() - event_date.getTime());
-      alert(
-        diff.getHours() +
+    const event_time = new Date(events[0]?.event_day).getTime();
+    const present = new Date().getTime();
+    if (event_time > present) {
+      var diff = new Date(event_time - present);
+      return alert(
+        "Time left for the event : " +
+          events[0]?.event_name +
+          ".\n" +
+          diff.getHours() +
           " : " +
           diff.getMinutes() +
           " : " +
-          diff.getSeconds() +
-          " left fot the event to start!"
+          diff.getSeconds()
       );
     }
     if (!user) return alert("unauthorized");

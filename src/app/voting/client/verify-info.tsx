@@ -33,7 +33,7 @@ const VerifyInfo = () => {
             className="mx-auto text-[#FF0000] mb-4 "
           />
           <div className="max-w-xl mx-auto text-justify">
-            Your acoount is not verified yet. In order to go to be verified, you
+            Your acount is not verified yet. In order to go to be verified, you
             need to either:
             <br />
             1. <b>Scan the QR</b> from your friend&apos;s accoount who has UCSP
