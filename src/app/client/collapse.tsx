@@ -1,4 +1,5 @@
 import {
+  CheckIcon,
   ClipboardDocumentCheckIcon,
   QrCodeIcon,
   UserIcon,
@@ -67,6 +68,11 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
       name: "Votes Histories",
       icon: ClipboardDocumentCheckIcon,
       href: "histories",
+    },
+    {
+      name: "Voting Results",
+      icon: CheckIcon,
+      href: "results",
     },
   ];
   if (user?.is_admin)

@@ -4,7 +4,6 @@ import {
   Button,
   IconButton,
   Typography,
-  Progress,
   Select,
   Option,
 } from "@material-tailwind/react";
@@ -19,7 +18,7 @@ import Collapse from "./collapse";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { moveContestantGroupToStart } from "@/lib/features/event/eventSlice";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const CONTESTANT_GROUPS = [
   {
