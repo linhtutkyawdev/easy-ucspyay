@@ -27,14 +27,16 @@ export function Footer() {
             <StarIcon color="yellow" className="w-4 h-4" />
           </Typography>
           <div className="flex w-full md:w-fit gap-3 mt-2 flex-col md:flex-row">
-            <Button
-              placeholder={""}
-              color="white"
-              size="md"
-              className="capitalize"
-            >
-              Go to Github repo
-            </Button>
+            <a href="https://github.com/linhtutkyawdev/easy-ucspyay">
+              <Button
+                placeholder={""}
+                color="white"
+                size="md"
+                className="capitalize"
+              >
+                Go to Github repo
+              </Button>
+            </a>
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center !justify-between">
