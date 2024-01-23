@@ -17,7 +17,10 @@ const ContestantQR = () => {
       <main>
         <Navbar white />
         {contestants.map((contestant) => (
-          <div className="flex items-center flex-col justify-center gap-4 h-[100vh] ">
+          <div
+            className="flex items-center flex-col justify-center gap-4 h-[100vh]"
+            key={"qr" + contestant.id}
+          >
             <Typography variant="h5" placeholder="">
               {contestant.gender == "male" ? "Mr." : "Ms."}{" "}
               {contestant.full_name}
