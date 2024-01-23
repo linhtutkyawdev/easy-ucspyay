@@ -8,7 +8,7 @@ import Loading from "@/app/loading";
 
 const TABLE_HEAD = ["Title", "Winnner", "Contestant No."];
 
-const Results = () => {
+const Histories = () => {
   const user = useAppSelector((state) => state.user.user);
   const events = useAppSelector((state) => state.event.events);
   const contestants = useAppSelector((state) => state.event.contestants);
@@ -132,4 +132,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default Histories;

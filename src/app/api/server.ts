@@ -332,18 +332,54 @@ export async function getResults(
 
 export async function getAllResults(
   event_name: string
-): Promise<{ title: string; winners?: string[] }[] | null> {
+): Promise<{ title: string; winner?: string }[] | null> {
   try {
-    const titles = await getTitles(event_name);
+    const titles = [
+      "king",
+      "handsome",
+      "smart",
+      "queen",
+      "glory",
+      "attraction",
+      "smile",
+      "best_couple",
+    ];
     if (!titles || titles?.length == 0) return null;
-    return await Promise.all(
+    let winners: string[] = [];
+    await Promise.all(
       titles.map(async (t) => {
-        return {
-          title: t.name,
-          winners: (await getResults(event_name, t.name))?.map((w) => w.id),
-        };
+        const wnrs = (await getResults(event_name, t))?.map((w) => w.id);
+        if (!wnrs) return;
+        let index = 0;
+        let oldLength, newLength;
+        do {
+          oldLength = winners.length;
+          winners = Array.from(new Set([...winners, wnrs[index]]));
+          newLength = winners.length;
+          index++;
+        } while (index < (wnrs?.length || 0) && winners.length == newLength);
       })
     );
+    return titles.map((t, index) => ({
+      title: t,
+      winner: index < winners.length ? winners[index] : "",
+    }));
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export async function getAllPublicResults(
+  event_name: string
+): Promise<{ title: string; winner?: string }[] | null> {
+  try {
+    return (
+      await turso.execute(`SELECT * FROM "${event_name}_voting_results";`)
+    ).rows.map((r) => ({
+      title: r.title as string,
+      winner: r?.winner as string,
+    }));
   } catch (e) {
     console.log(e);
     return null;

@@ -2,7 +2,7 @@
 import Slider from "react-slick";
 import Navbar from "@/app/client/navbar";
 import ContestantCard from "./contestant-card";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Couple_card from "./couple-card";
 import { useSearchParams } from "next/navigation";
 import VerifyInfo from "./verify-info";

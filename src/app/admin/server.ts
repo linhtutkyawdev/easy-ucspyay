@@ -1,6 +1,7 @@
 "use server";
 import { turso } from "@/lib/utils";
 import { randomBytes } from "crypto";
+import { getTitles } from "../server";
 
 export async function createEvent(
   event_name: string,
@@ -127,3 +128,36 @@ export async function removeSecret() {
 //     return null;
 //   }
 // }
+
+export async function addResult(
+  event_name: string,
+  title: string,
+  contestant: string
+) {
+  try {
+    await turso.execute({
+      sql: `INSERT INTO "${event_name}_voting_results" VALUES (?,?);`,
+      args: [title, contestant],
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getUnrevealedTitles(
+  event_name: string
+): Promise<string[] | null> {
+  try {
+    const titles = await getTitles(event_name);
+    if (!titles) return null;
+    const revealed_titles = (
+      await turso.execute(`SELECT title FROM "${event_name}_voting_results";`)
+    ).rows.map((r) => r.title as string);
+    return titles.filter((t) => !revealed_titles.includes(t));
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
