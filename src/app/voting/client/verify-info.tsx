@@ -36,8 +36,8 @@ const VerifyInfo = () => {
             Your acoount is not verified yet. In order to go to be verified, you
             need to either:
             <br />
-            1. <b>Scan the QR</b> from your friend's accoount who has UCSP Edu
-            mail. (OR)
+            1. <b>Scan the QR</b> from your friend&apos;s accoount who has UCSP
+            Edu mail. (OR)
             <br />
             2. If you have an edu mail at UCSPyay, You can verify your account
             by adding your mail.
