@@ -6,15 +6,17 @@ import { useAppSelector } from "@/lib/hooks";
 import Couple_card from "./couple-card";
 import { useSearchParams } from "next/navigation";
 import VerifyInfo from "./verify-info";
+import Loading from "@/app/loading";
 
 export default function Voting() {
-  const contestants = useAppSelector((state) => state.event.contestants);
   const user = useAppSelector((state) => state.user.user);
-  const params = useSearchParams();
+  const contestants = useAppSelector((state) => state.event.contestants);
   const contestant_groups = useAppSelector(
     (state) => state.event.contestant_groups
   );
+  const params = useSearchParams();
 
+  if (!contestants || !contestant_groups) return <Loading />;
   if (!user) return <VerifyInfo />;
 
   var settings = {
@@ -30,50 +32,48 @@ export default function Voting() {
   return (
     <main className="bg-blue-gray-50">
       <Navbar white voting />
-      {contestants &&
-        (contestant_groups[0] == "male" || contestant_groups[0] == "female" ? (
-          <div className="container h-[90vh] sm:pt-[5.95rem] flex flex-col">
-            <Slider
-              {...settings}
-              className="w-[320px] m-auto scale-110v text-black"
-            >
-              {contestants
-                .filter((c) => {
-                  return c.gender == contestant_groups[0];
-                })
-                .map((c) => (
-                  <ContestantCard
-                    {...c}
-                    allowed_contestant_group={c.gender}
-                    key={c.id}
-                  />
-                ))}
-            </Slider>
-          </div>
-        ) : (
+      {contestant_groups[0] == "male" || contestant_groups[0] == "female" ? (
+        <div className="container h-[90vh] sm:pt-[5.95rem] flex flex-col">
           <Slider
             {...settings}
-            className="couple-card-body lg:!w-[60vw] lg:!h-[100vh] !w-[86vw] !h-[96vh]  md:pt-32 pt-20 mx-auto lg:-mt-8"
+            className="w-[320px] m-auto scale-110v text-black"
           >
             {contestants
-              .filter((c) => c.gender == "male")
-              .map((male) => {
-                const female = contestants.find(
-                  (c) =>
-                    c.contestant_no == male.contestant_no &&
-                    c.gender == "female"
-                );
-                if (male && female)
-                  return (
-                    <Couple_card
-                      key={"c-" + male.contestant_no}
-                      male={male}
-                      female={female}
-                    />
-                  );
-              })}
+              .filter((c) => {
+                return c.gender == contestant_groups[0];
+              })
+              .map((c) => (
+                <ContestantCard
+                  {...c}
+                  allowed_contestant_group={c.gender}
+                  key={c.id}
+                />
+              ))}
           </Slider>
-        ))}
+        </div>
+      ) : (
+        <Slider
+          {...settings}
+          className="couple-card-body lg:!w-[60vw] lg:!h-[100vh] !w-[86vw] !h-[96vh]  md:pt-32 pt-20 mx-auto lg:-mt-8"
+        >
+          {contestants
+            .filter((c) => c.gender == "male")
+            .map((male) => {
+              const female = contestants.find(
+                (c) =>
+                  c.contestant_no == male.contestant_no && c.gender == "female"
+              );
+              if (male && female)
+                return (
+                  <Couple_card
+                    key={"c-" + male.contestant_no}
+                    male={male}
+                    female={female}
+                  />
+                );
+            })}
+        </Slider>
+      )}
     </main>
   );
 }
