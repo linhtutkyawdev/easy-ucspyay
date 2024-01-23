@@ -34,6 +34,7 @@ function NavItem({ children, href }: NavItemProps) {
 const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
   const events = useAppSelector((state) => state.event.events);
   const user = useAppSelector((state) => state.user.user);
+  const contestants = useAppSelector((state) => state.event.contestants);
   const votesLeft = useAppSelector((state) => state.user.votesLeft);
   let NAV_MENU = [
     {
@@ -75,6 +76,15 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
         name: "Almighty",
         icon: UserIcon,
         href: "admin",
+      },
+    ];
+  if (contestants?.find((c) => c.id == user?.id))
+    NAV_MENU = [
+      ...NAV_MENU,
+      {
+        name: "Contestant QR",
+        icon: QrCodeIcon,
+        href: "contestant_qr",
       },
     ];
   if (!events) return;
