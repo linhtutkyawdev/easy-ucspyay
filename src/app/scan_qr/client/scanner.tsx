@@ -110,7 +110,7 @@ const Scanner = () => {
       </div>
       <DialogSelect
         open={gopen}
-        toggleOpen={() => {
+        close={() => {
           setgOpen(false);
         }}
         label="Choose your gender!"
