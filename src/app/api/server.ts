@@ -375,7 +375,9 @@ export async function getAllResults(
       best_coupleResults,
     ].forEach((r) => {
       if (r) {
-        while (original == updated && updated < r.length - 1) {
+        let max = 0;
+        while (original == updated && updated < r.length - 1 && max < 50) {
+          max++;
           original = winners.length;
 
           winners = [...winners, r[updated]?.id];
@@ -384,6 +386,7 @@ export async function getAllResults(
             return self.indexOf(value) === index;
           });
 
+          console.log(winners);
           updated = winners.length;
         }
         original = 0;
