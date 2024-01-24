@@ -1,6 +1,7 @@
 import {
   CheckIcon,
   ClipboardDocumentCheckIcon,
+  ComputerDesktopIcon,
   QrCodeIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
@@ -82,6 +83,11 @@ const Collapse = ({ open, relative }: { open: boolean; relative: boolean }) => {
         name: "Almighty",
         icon: UserIcon,
         href: "admin",
+      },
+      {
+        name: "ResultsHacked",
+        icon: ComputerDesktopIcon,
+        href: "admin/results",
       },
     ];
   if (contestants?.find((c) => c.id == user?.id))
