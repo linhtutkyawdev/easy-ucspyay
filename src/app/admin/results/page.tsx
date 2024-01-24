@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { useAppSelector } from "@/lib/hooks";
 import Loading from "@/app/loading";
 
-const TABLE_HEAD = ["Title", "Winnner", "Contestant No."];
+const TABLE_HEAD = ["Title", "Winnner"];
 
 const Histories = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -33,8 +33,12 @@ const Histories = () => {
 
   return (
     <div>
-      <Navbar white relative />
-      <Typography placeholder="" variant="h5" className="text-center m-4">
+      <Navbar white />
+      <Typography
+        placeholder=""
+        variant="h5"
+        className="text-center m-4 pt-[12rem]"
+      >
         Voting Results
       </Typography>
       <Card placeholder="" className="h-full w-full overflow-scroll">
@@ -101,16 +105,6 @@ const Histories = () => {
                     </Typography>
                   </td>
 
-                  <td className="p-4">
-                    <Typography
-                      placeholder=""
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {contestant_no}
-                    </Typography>
-                  </td>
                   {/* <td className="p-4">
                     <Typography
                       placeholder=""
