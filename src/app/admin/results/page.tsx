@@ -37,7 +37,7 @@ const Histories = () => {
       <Typography
         placeholder=""
         variant="h5"
-        className="text-center m-4 pt-[12rem]"
+        className="text-center m-4 pt-[5rem]"
       >
         Voting Results
       </Typography>
