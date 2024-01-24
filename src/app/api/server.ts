@@ -372,7 +372,6 @@ export async function getAllResults(
       gloryResults,
       attractionsResults,
       smileResults,
-      best_coupleResults,
     ].forEach((r) => {
       if (r) {
         let max = 0;
@@ -393,6 +392,7 @@ export async function getAllResults(
         updated = 0;
       }
     });
+    if (best_coupleResults) winners = [...winners, best_coupleResults[0]?.id];
     return winners.map((w, i) => ({
       title: titles[i],
       winner: w,
