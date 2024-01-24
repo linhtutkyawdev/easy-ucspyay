@@ -7,7 +7,7 @@ const UserProfilePage = async () => {
   return (
     <div className="my-4 flex items-end justify-center">
       <UserProfile path="/user-profile" routing="path" />
-      <RedirectBack />
+      {/* <RedirectBack /> */}
     </div>
   );
 };

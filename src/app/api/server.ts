@@ -344,25 +344,55 @@ export async function getAllResults(
       "smile",
       "best_couple",
     ];
-    if (!titles || titles?.length == 0) return null;
+
+    const kingResults = await getResults(event_name, "king");
+
+    const handsomeResults = await getResults(event_name, "handsome");
+
+    const smartResults = await getResults(event_name, "smart");
+
+    const queenResults = await getResults(event_name, "queen");
+
+    const gloryResults = await getResults(event_name, "glory");
+
+    const attractionsResults = await getResults(event_name, "attraction");
+
+    const smileResults = await getResults(event_name, "smile");
+
+    const best_coupleResults = await getResults(event_name, "best_couple");
+
     let winners: string[] = [];
-    await Promise.all(
-      titles.map(async (t) => {
-        const wnrs = (await getResults(event_name, t))?.map((w) => w.id);
-        if (!wnrs) return;
-        let index = 0;
-        let oldLength, newLength;
-        do {
-          oldLength = winners.length;
-          winners = Array.from(new Set([...winners, wnrs[index]]));
-          newLength = winners.length;
-          index++;
-        } while (index < (wnrs?.length || 0) && winners.length == newLength);
-      })
-    );
-    return titles.map((t, index) => ({
-      title: t,
-      winner: index < winners.length ? winners[index] : "",
+    let original = 0,
+      updated = 0;
+    [
+      kingResults,
+      handsomeResults,
+      smartResults,
+      queenResults,
+      gloryResults,
+      attractionsResults,
+      smileResults,
+      best_coupleResults,
+    ].forEach((r) => {
+      if (r) {
+        while (original == updated) {
+          original = winners.length;
+
+          winners = [...winners, r[updated]?.id];
+
+          winners = winners.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+          });
+
+          updated = winners.length;
+        }
+        original = 0;
+        updated = 0;
+      }
+    });
+    return winners.map((w, i) => ({
+      title: titles[i],
+      winner: w,
     }));
   } catch (e) {
     console.log(e);
