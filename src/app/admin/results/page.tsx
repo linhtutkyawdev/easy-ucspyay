@@ -72,6 +72,7 @@ const Histories = () => {
                           )?.contestant_no
                       )
                       .map((con) => con.full_name)
+                      .reverse()
                       .join(" & ")
                   : contestants.find((c) => c.id == r.winner)?.full_name,
                 contestant_no: contestants.find((c) => c.id == r.winner)

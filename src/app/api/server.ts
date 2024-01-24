@@ -375,7 +375,7 @@ export async function getAllResults(
       best_coupleResults,
     ].forEach((r) => {
       if (r) {
-        while (original == updated) {
+        while (original == updated && updated < r.length - 1) {
           original = winners.length;
 
           winners = [...winners, r[updated]?.id];
