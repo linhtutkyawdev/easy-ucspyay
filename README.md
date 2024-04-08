@@ -13,9 +13,9 @@ bun dev
 
 ## Secreenshots
 
-![s1](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-1.png?raw=true)
+![](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-1.png?raw=true)
 
-![s2](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-2.png?raw=true)
+![](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-2.png?raw=true)
 
 <p>
 <img src="https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-3.jpg?raw=true" width="200"/>
