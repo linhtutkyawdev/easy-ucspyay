@@ -13,15 +13,15 @@ bun dev
 
 ## Secreenshots
 
-![s1](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-1.png?raw=true)
+![s1](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-1.png?raw=true)
 
-![s2](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-2.png?raw=true)
+![s2](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-2.png?raw=true)
 
-![s3](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-3.jpg?raw=true)
+![s3](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-3.jpg?raw=true)
 
-![s4](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-4.jpg?raw=true)
+![s4](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-4.jpg?raw=true)
 
-![s5](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-5.jpg?raw=true)
+![s5](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/screenshots/s-5.jpg?raw=true)
 
 ![s6](https://github.com/linhtutkyawdev/easy-ucspyay/blob/master/public/assets/images/screenshots/s-6.jpg?raw=true)
 
