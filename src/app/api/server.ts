@@ -362,8 +362,6 @@ export async function getAllResults(
     const best_coupleResults = await getResults(event_name, "best_couple");
 
     let winners: string[] = [];
-    let original = 0,
-      updated = 0;
     [
       kingResults,
       handsomeResults,
@@ -374,22 +372,10 @@ export async function getAllResults(
       smileResults,
     ].forEach((r) => {
       if (r) {
-        let max = 0;
-        while (original == updated && updated < r.length - 1 && max < 50) {
-          max++;
-          original = winners.length;
-
-          winners = [...winners, r[updated]?.id];
-
-          winners = winners.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-          });
-
-          console.log(winners);
-          updated = winners.length;
-        }
-        original = 0;
-        updated = 0;
+        let r_index = 0;
+        while(r[r_index].id && winners.find((w) => w == r[r_index].id)) r_index++;
+        winners = [...winners, r[r_index].id];
+        console.log(winners); 
       }
     });
     if (best_coupleResults) winners = [...winners, best_coupleResults[0]?.id];
