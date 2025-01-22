@@ -14,6 +14,7 @@ import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
 import Loading from "@/app/loading";
 import DialogSelect from "@/app/client/dialogSelect";
+import { revalidatePath } from "next/cache";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
@@ -23,6 +24,7 @@ const Admin = () => {
 
   const [titles, setTitles] = useState<string[] | null>(null);
   const [revealTitle, setRevealTitle] = useState("");
+  const [secret, setSecret] = useState("");
 
   let { data: secrets, isLoading } = useSWR<
     {
@@ -45,11 +47,8 @@ const Admin = () => {
 
   useEffect(() => {
     (async () => {
-      if (!isLoading && events && events[0] && secrets?.length == 0) {
-        await addContestantSecret(events[0].event_name) &&
-          window.addEventListener("beforeunload", () => {
-            removeSecret();
-          });
+      if (!isLoading && events && events[0] && secrets && secrets.filter((s) => s.key.startsWith(events[0].event_name)).length > 0) {
+        setSecret(secrets[0].key);
       }
     })();
   }, [secrets, isLoading, events]);
@@ -189,7 +188,7 @@ const Admin = () => {
         <Typography placeholder="" variant="h5">
           Scan Contestant QR
         </Typography>
-        {secrets && <GenerateQR secret={secrets.filter((s) => s.key.startsWith(events[0].event_name))[0]?.key} />}
+        {secret && <GenerateQR secret={secret} />}
         <div className="flex space-x-4">
           <Button
             variant="gradient"
