@@ -14,7 +14,6 @@ import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
 import Loading from "@/app/loading";
 import DialogSelect from "@/app/client/dialogSelect";
-import { getTitles } from "@/app/server";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
@@ -33,9 +32,9 @@ const Admin = () => {
 
   const { data: results, isLoading: isResultLoading } = useSWR<
     | {
-        title: string;
-        winner: string;
-      }[]
+      title: string;
+      winner: string;
+    }[]
     | null
   >(
     user?.id && events
@@ -107,11 +106,11 @@ const Admin = () => {
         if (
           !confirm(
             "You are about to create an event on " +
-              event_day +
-              " with name: " +
-              event_name +
-              ".\nWith the following titles.\n" +
-              titles.map((t) => t.name + ":" + t.type).join("\n")
+            event_day +
+            " with name: " +
+            event_name +
+            ".\nWith the following titles.\n" +
+            titles.map((t) => t.name + ":" + t.type).join("\n")
           )
         )
           return;
@@ -153,9 +152,9 @@ const Admin = () => {
         title_type =
           prompt(
             "What is the type of the title: " +
-              title_name +
-              ".\n" +
-              title_types.join(" || ")
+            title_name +
+            ".\n" +
+            title_types.join(" || ")
           )?.toLowerCase() || null;
         if (title_type == "exit") return;
         if (!title_type || !title_types.includes(title_type)) {
@@ -171,11 +170,11 @@ const Admin = () => {
     if (
       !confirm(
         "You are about to create an event on " +
-          event_day +
-          " with name: " +
-          event_name +
-          ".\nWith the following titles.\n" +
-          titles.map((t) => t.name + ":" + t.type).join("\n")
+        event_day +
+        " with name: " +
+        event_name +
+        ".\nWith the following titles.\n" +
+        titles.map((t) => t.name + ":" + t.type).join("\n")
       )
     )
       return;

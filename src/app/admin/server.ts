@@ -1,7 +1,6 @@
 "use server";
 import { turso } from "@/lib/utils";
 import { randomBytes } from "crypto";
-import { getTitles } from "../server";
 
 export async function createEvent(
   event_name: string,

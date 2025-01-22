@@ -8,6 +8,7 @@ import { setUsers, setUser, setVotesLeft } from "@/lib/features/user/userSlice";
 import { useUser } from "@clerk/nextjs";
 import { addUser, updateContestant } from "../api/server";
 import { updateUser } from "../server";
+import { useSearchParams } from "next/navigation";
 
 export default function StoreProvider({
   children,
@@ -15,16 +16,24 @@ export default function StoreProvider({
   children: React.ReactNode;
 }) {
   const storeRef = useRef<AppStore | null>(null);
+  const searchParams = useSearchParams()
+  const event_name = searchParams.get('event_name')
   const { user: currentUser } = useUser();
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data: events } = useSWR<
+  let { data: events } = useSWR<
     {
       event_name: string;
       event_day: Date;
     }[]
   >("/api/events", fetcher);
+
+  if (event_name && events) {
+    events = events.filter((e) => e.event_name === event_name).concat(
+      events.filter((e) => e.event_name !== event_name)
+    )
+  }
 
   const { data: user, isLoading: isUserLoading } = useSWR<{
     id: string;
