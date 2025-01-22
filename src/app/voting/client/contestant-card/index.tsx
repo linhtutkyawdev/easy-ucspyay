@@ -43,13 +43,13 @@ const ContestantCard = ({
       var diff = new Date(event_time - present);
       return alert(
         "Time left for the event : " +
-          events[0]?.event_name +
-          ".\n" +
-          diff.getHours() +
-          " : " +
-          diff.getMinutes() +
-          " : " +
-          diff.getSeconds()
+        events[0]?.event_name +
+        ".\n" +
+        diff.getHours() +
+        " : " +
+        diff.getMinutes() +
+        " : " +
+        diff.getSeconds()
       );
     }
     if (!user) return alert("unauthorized");
@@ -93,10 +93,11 @@ const ContestantCard = ({
           </div>
         </div>
         <div
-          className="av"
+          className="av cursor-pointer"
           style={{
             backgroundImage: `url('${image_url}')`,
           }}
+          onClick={() => window.location.href = (image_url)}
         ></div>
         <div className="info">
           <div>{full_name}</div>
