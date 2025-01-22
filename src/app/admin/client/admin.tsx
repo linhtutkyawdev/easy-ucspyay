@@ -45,7 +45,7 @@ const Admin = () => {
 
   useEffect(() => {
     (async () => {
-      if (secrets && !secrets[0] && events && events[0])
+      if (secrets && events && events[0] && secrets.filter((s) => s.key.startsWith(events[0].event_name)).length > 0)
         (await addContestantSecret(events[0].event_name)) &&
           window.addEventListener("beforeunload", () => {
             removeSecret();
@@ -76,7 +76,7 @@ const Admin = () => {
     return <Loading />;
   if (!user) return "not authorized";
   if (!user.is_admin) return "Not Admin";
-  if (!results || results.length == 0) return "No Result Found!";
+  // if (!results || results.length == 0) return "No Result Found!";
 
   const handleCreateEvent = async () => {
     let event_name: string | null = null;
@@ -186,7 +186,7 @@ const Admin = () => {
       <Navbar white />
       <div className="flex items-center flex-col justify-center gap-4 h-[100vh] ">
         <Typography placeholder="" variant="h5">
-          Scan This QR
+          Scan Contestant QR
         </Typography>
         {secrets && <GenerateQR secret={secrets[0]?.key} />}
         <div className="flex space-x-4">
