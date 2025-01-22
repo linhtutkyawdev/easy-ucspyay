@@ -45,7 +45,7 @@ const Admin = () => {
 
   useEffect(() => {
     (async () => {
-      if (events && events[0] && (!secrets || secrets?.length == 0))
+      if (!isLoading && events && events[0] && (!secrets || secrets?.length == 0))
         (await addContestantSecret(events[0].event_name)) &&
           window.addEventListener("beforeunload", () => {
             removeSecret();
