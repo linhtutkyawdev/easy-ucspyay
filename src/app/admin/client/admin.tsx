@@ -188,7 +188,7 @@ const Admin = () => {
         <Typography placeholder="" variant="h5">
           Scan Contestant QR
         </Typography>
-        {secrets && <GenerateQR secret={secrets[0]?.key} />}
+        {secrets && <GenerateQR secret={secrets.filter((s) => s.key.startsWith(events[0].event_name))[0]?.key} />}
         <div className="flex space-x-4">
           <Button
             variant="gradient"
