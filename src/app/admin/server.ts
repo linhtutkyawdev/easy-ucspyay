@@ -92,7 +92,7 @@ export async function createEvent(
 //   }
 // }
 
-export async function addContestantSecret(event_name: string) {
+export async function addContestantSecret(event_name: string): Promise<string> {
   try {
     const secret =
       event_name + "_contestants:" + randomBytes(69).toString("base64");
@@ -100,10 +100,10 @@ export async function addContestantSecret(event_name: string) {
       sql: "INSERT INTO contestant_verifications VALUES (?);",
       args: [secret],
     });
-    return true;
+    return secret;
   } catch (error) {
     console.log(error);
-    return false;
+    return "";
   }
 }
 

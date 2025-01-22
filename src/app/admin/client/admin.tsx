@@ -24,7 +24,7 @@ const Admin = () => {
   const [titles, setTitles] = useState<string[] | null>(null);
   const [revealTitle, setRevealTitle] = useState("");
 
-  const { data: secrets, isLoading } = useSWR<
+  let { data: secrets, isLoading } = useSWR<
     {
       key: string;
     }[]
@@ -45,13 +45,17 @@ const Admin = () => {
 
   useEffect(() => {
     (async () => {
-      if (!isLoading && events && events[0] && (!secrets || secrets?.length == 0))
-        (await addContestantSecret(events[0].event_name)) &&
+      if (!isLoading && events && events[0] && secrets?.filter((s) => s.key.startsWith(events[0].event_name)).length == 0) {
+        const secret = await addContestantSecret(events[0].event_name);
+        if (secret) {
           window.addEventListener("beforeunload", () => {
             removeSecret();
           });
+          secrets = [{ key: secret }];
+        }
+      }
     })();
-  }, [secrets, isLoading, events]);
+  }, [isLoading, events]);
 
   useEffect(() => {
     (async () => {
