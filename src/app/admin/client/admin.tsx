@@ -3,8 +3,6 @@ import { useAppSelector } from "@/lib/hooks";
 import { Button, Typography } from "@material-tailwind/react";
 import {
   createEvent,
-  addContestantSecret,
-  removeSecret,
   addResult,
   getUnrevealedTitles,
 } from "../server";
@@ -14,7 +12,6 @@ import Navbar from "@/app/client/navbar";
 import GenerateQR from "@/app/verify/client/generate-qr";
 import Loading from "@/app/loading";
 import DialogSelect from "@/app/client/dialogSelect";
-import { revalidatePath } from "next/cache";
 
 const Admin = () => {
   const events = useAppSelector((state) => state.event.events);
