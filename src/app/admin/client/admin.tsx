@@ -45,17 +45,14 @@ const Admin = () => {
 
   useEffect(() => {
     (async () => {
-      if (!isLoading && events && events[0] && secrets?.filter((s) => s.key.startsWith(events[0].event_name)).length == 0) {
-        const secret = await addContestantSecret(events[0].event_name);
-        if (secret) {
+      if (!isLoading && events && events[0] && secrets?.length == 0) {
+        await addContestantSecret(events[0].event_name) &&
           window.addEventListener("beforeunload", () => {
             removeSecret();
           });
-          secrets = [{ key: secret }];
-        }
       }
     })();
-  }, [isLoading, events]);
+  }, [secrets, isLoading, events]);
 
   useEffect(() => {
     (async () => {
