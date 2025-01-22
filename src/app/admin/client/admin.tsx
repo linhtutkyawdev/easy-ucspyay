@@ -5,6 +5,7 @@ import {
   createEvent,
   addResult,
   getUnrevealedTitles,
+  addContestantSecret,
 } from "../server";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
@@ -46,6 +47,8 @@ const Admin = () => {
     (async () => {
       if (!isLoading && events && events[0] && secrets && secrets.filter((s) => s.key.startsWith(events[0].event_name)).length > 0) {
         setSecret(secrets[0].key);
+      } else if (!isLoading && !secrets && events && events[0] && !secret) {
+        setSecret(await addContestantSecret(events[0].event_name));
       }
     })();
   }, [secrets, isLoading, events]);
